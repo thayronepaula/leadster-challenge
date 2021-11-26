@@ -1,0 +1,10 @@
+.album {
+  max-width: 1010px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  place-items: center;
+  gap: 40px 100px;
+
+  margin-top: 77px;
+}

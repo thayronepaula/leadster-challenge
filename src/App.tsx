@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { SearchContext } from "./context/search";
 
 import { Header } from "./components/Header";
+import { Album } from "../src/components/Album";
 
 import styles from "./app.module.scss";
 
@@ -11,7 +12,7 @@ export function App() {
     <div className={styles.container}>
       <Header />
       <main>
-        <h1>{search}</h1>
+        <Album />
       </main>
     </div>
   );
