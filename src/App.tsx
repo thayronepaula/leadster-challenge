@@ -3,6 +3,7 @@ import { SearchContext } from "./context/search";
 
 import { Header } from "./components/Header";
 import { Album } from "../src/components/Album";
+import { Footer } from "./components/Footer";
 
 import styles from "./app.module.scss";
 
@@ -14,6 +15,7 @@ export function App() {
       <main>
         <Album />
       </main>
+      <Footer />
     </div>
   );
 }

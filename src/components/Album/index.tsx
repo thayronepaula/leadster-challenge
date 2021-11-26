@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 export function Album() {
   const photos = [];
 
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 3; i++) {
     photos.push(i);
   }
   return (
