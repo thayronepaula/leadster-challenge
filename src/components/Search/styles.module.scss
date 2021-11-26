@@ -6,15 +6,15 @@
   z-index: 999;
 
 
-  width: 436px;
-  height: 75px;
-  padding: 0 27px;
+  width: 340px;
+  height: 60px;
+  padding: 0 28px;
 
   background: #FFFFFF;
   color: #000;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
   border-radius: 5px;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 28px;
 
   border: 0;
@@ -27,7 +27,7 @@
   }
 
   &:focus {
-    width: 448px;
+    width: 344px;
 
     &::placeholder {
       color: transparent;
