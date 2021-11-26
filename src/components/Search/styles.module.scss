@@ -1,0 +1,36 @@
+.search {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+
+
+  width: 436px;
+  height: 75px;
+  padding: 0 27px;
+
+  background: #FFFFFF;
+  color: #000;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+  border-radius: 5px;
+  font-size: 24px;
+  line-height: 28px;
+
+  border: 0;
+  outline: none;
+
+  transition: width 0.3s;
+
+  &::placeholder {
+    color: #747474;
+  }
+
+  &:focus {
+    width: 448px;
+
+    &::placeholder {
+      color: transparent;
+    }
+  }
+}
