@@ -1,0 +1,39 @@
+.swiper {
+  height: 300px;
+  margin-top: 30px;
+
+  .bgSlide {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    height: inherit;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    filter: brightness(.8);
+    border-radius: 5px 5px 0px 0px;
+    z-index: -1;
+  }
+
+  .swiperSlide {
+    display: flex;
+    align-items: flex-end;
+
+    h1 {
+      width: 198px;
+      font-size: 36px;
+      line-height: 42px;
+      margin: 0 0 40px 40px;
+      
+      color: #fff;
+      text-transform: uppercase;
+    }
+  }
+
+
+
+}
