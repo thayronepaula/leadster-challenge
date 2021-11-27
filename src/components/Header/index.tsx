@@ -16,9 +16,9 @@ const client = createClient(
 const query = "Nature";
 
 export function Header() {
-  client.photos
-    .search({ query, per_page: 1 })
-    .then((photos) => console.log(photos));
+  // client.photos
+  //   .search({ query, per_page: 1 })
+  //   .then((photos) => console.log(photos));
 
   return (
     <header className={styles.header}>
@@ -26,8 +26,8 @@ export function Header() {
         className={styles.swiper}
         modules={[Autoplay]}
         slidesPerView={1}
-        onSlideChange={() => console.log("slide change")}
-        onSwiper={(swiper) => console.log(swiper)}
+        // onSlideChange={() => console.log("slide change")}
+        // onSwiper={(swiper) => console.log(swiper)}
         effect="fade"
         grabCursor
         autoplay={{ delay: 50000 }}
