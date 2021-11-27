@@ -1,34 +1,93 @@
-import { createClient, Photos, PhotosWithTotalResults } from "pexels";
+import { createClient, PhotosWithTotalResults } from "pexels";
 import React from "react";
 
 import { Photo } from "./Photo";
 import styles from "./styles.module.scss";
 
+interface PhotoData {
+  avg_color?: string;
+  id: number;
+  width: number;
+  height: number;
+  url: string;
+  photographer: string;
+  photographer_url: string;
+  photographer_id: string;
+  liked: boolean;
+  src: {
+    landscape: string;
+    large: string;
+    large2x: string;
+    medium: string;
+    original: string;
+    portrait: string;
+    small: string;
+    tiny: string;
+  };
+}
+
 const client = createClient(
   "563492ad6f917000010000011d7c21ba52c34f0abbefd675f9034e42"
 );
 export function Album() {
-  const [responsePhotos, setPesponsePhotos] =
-    React.useState<PhotosWithTotalResults | null>(null);
+  const [responsePhotos, setPesponsePhotos] = React.useState<PhotoData[]>(
+    () => []
+  );
+  const [currentPage, SetCurrentPage] = React.useState(1);
+
+  async function getPhotos() {
+    const response = (await client.photos.curated({
+      per_page: 23,
+      page: currentPage,
+    })) as PhotosWithTotalResults;
+
+    setPesponsePhotos((prev) => {
+      const allPhotos = [...prev, ...response.photos];
+
+      const PhotosWithoutDuplicateID = allPhotos.filter((obj, index, self) => {
+        return index === self.findIndex((el) => el.id === obj.id);
+      });
+
+      return PhotosWithoutDuplicateID;
+    });
+  }
 
   React.useEffect(() => {
-    client.photos
-      .curated({ per_page: 36, page: Math.floor(Math.random() * 300) })
-      .then((photos) => setPesponsePhotos(photos as PhotosWithTotalResults));
+    getPhotos();
+  }, [currentPage]);
+
+  React.useEffect(() => {
+    const intersectionObserver = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        console.log("observando", entries);
+        SetCurrentPage((prev) => prev + 1);
+      }
+    });
+    if (photos) {
+      const sentinela = document.querySelector(
+        `.${styles.sentinela}`
+      ) as Element;
+      console.log(sentinela);
+      intersectionObserver.observe(sentinela);
+    }
+
+    return () => intersectionObserver.disconnect();
   }, []);
 
-  const photos = responsePhotos?.photos;
+  const photos = responsePhotos;
   if (!photos) return null;
 
-  // console.log(responsePhotos);
   return (
-    <div  className={styles.scroll}>
-
-    <section className={styles.album}>
-      {photos.map((photo) => (
-        <Photo key={photo.id} {...photo} />
-        ))}
-    </section>
-        </div>
+    <>
+      <h1>{currentPage}</h1>
+      <div className={styles.scroll}>
+        <section className={styles.album}>
+          {photos?.map((photo) => {
+            return <Photo key={photo.id} {...photo} />;
+          })}
+          <div className={styles.sentinela} />
+        </section>
+      </div>
+    </>
   );
 }

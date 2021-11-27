@@ -25,7 +25,11 @@ export function Photo({ ...photo }: PhotoProps) {
       <AsyncImage src={src.portrait} alt={altFormat} baseColor={avg_color} />
       <footer className={styles.cardFooter}>
         <h3>{photographer}</h3>
-        <img className={styles.photographerIcon} src={PhotographerIcon} alt="Photographer Icon" />
+        <img
+          className={styles.photographerIcon}
+          src={PhotographerIcon}
+          alt="Photographer Icon"
+        />
       </footer>
     </div>
   );
