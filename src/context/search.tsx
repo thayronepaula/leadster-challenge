@@ -1,7 +1,8 @@
-import { createContext, ReactNode } from "react";
+import { createContext, ReactNode, useState } from "react";
 
 type AuthContextData = {
   search: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const SearchContext = createContext({} as AuthContextData);
@@ -11,8 +12,9 @@ type SearchProviderProps = {
 };
 
 export function SearchProvider({ children }: SearchProviderProps) {
+  const [search, setSearch] = useState("");
   return (
-    <SearchContext.Provider value={{ search: "Thayrone" }}>
+    <SearchContext.Provider value={{ search, setSearch }}>
       {children}
     </SearchContext.Provider>
   );

@@ -52,6 +52,8 @@ export function Album() {
     });
   }
 
+  // console.log(responsePhotos[0].id)
+
   React.useEffect(() => {
     getPhotos();
   }, [currentPage]);
@@ -59,7 +61,7 @@ export function Album() {
   React.useEffect(() => {
     const intersectionObserver = new IntersectionObserver((entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
-        console.log("observando", entries);
+        // console.log("observando", entries);
         SetCurrentPage((prev) => prev + 1);
       }
     });
@@ -67,7 +69,7 @@ export function Album() {
       const sentinela = document.querySelector(
         `.${styles.sentinela}`
       ) as Element;
-      console.log(sentinela);
+
       intersectionObserver.observe(sentinela);
     }
 

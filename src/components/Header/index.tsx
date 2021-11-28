@@ -1,4 +1,4 @@
-import { createClient } from "pexels";
+import { createClient, PhotosWithTotalResults } from "pexels";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper";
@@ -9,43 +9,92 @@ import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/effect-fade";
 import { Search } from "../Search";
+import React from "react";
+import Skeleton from "react-loading-skeleton";
 
+interface PhotoData {
+  id: number;
+  width: number;
+  height: number;
+  url: string;
+  photographer: string;
+  photographer_url: string;
+  photographer_id: string;
+  liked: boolean;
+  src: {
+    landscape: string;
+    large: string;
+    large2x: string;
+    medium: string;
+    original: string;
+    portrait: string;
+    small: string;
+    tiny: string;
+  };
+}
 const client = createClient(
-  "563492ad6f91700001000001c23d184bf23045bd89cae01f5aa43464"
+  "563492ad6f917000010000011d7c21ba52c34f0abbefd675f9034e42"
 );
-const query = "Nature";
+const queries = ["Nature", "Fantasy", "Friendship", "Games"];
 
 export function Header() {
-  // client.photos
-  //   .search({ query, per_page: 1 })
-  //   .then((photos) => console.log(photos));
+  const [responsePhotos, setPesponsePhotos] = React.useState<PhotoData[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    async function getPhotos() {
+      let response = [];
+      try {
+        for (let query of queries) {
+          const PhotosWithTotalResults = (await client.photos.search({
+            query,
+            per_page: 1,
+          })) as PhotosWithTotalResults;
+          response.push(...PhotosWithTotalResults.photos);
+        }
+        setPesponsePhotos(response);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    getPhotos();
+  }, []);
+
+  // console.log(responsePhotos);
 
   return (
     <header className={styles.header}>
-      <Swiper
-        className={styles.swiper}
-        modules={[Autoplay]}
-        slidesPerView={1}
-        // onSlideChange={() => console.log("slide change")}
-        // onSwiper={(swiper) => console.log(swiper)}
-        effect="fade"
-        grabCursor
-        autoplay={{ delay: 50000 }}
-      >
-        <SwiperSlide className={`${styles.swiperSlide}`}>
-          <div
-            className={`${styles.bgSlide}`}
-            style={{
-              backgroundImage:
-                "url(https://images.pexels.com/photos/15286/pexels-photo.jpg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200)",
-            }}
-          />
-          <h1>Explore a natureza</h1>
-        </SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-        <SwiperSlide>Slide 4</SwiperSlide>
-      </Swiper>
+      {isLoading ? (
+        <Skeleton baseColor="#222" style={{ maxWidth: 1280, height: 300 }} />
+      ) : (
+        <Swiper
+          className={styles.swiper}
+          modules={[Autoplay]}
+          slidesPerView={1}
+          grabCursor
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false,
+          }}
+        >
+          {responsePhotos.map(({ id, src }, index) => {
+            return (
+              <SwiperSlide key={id} className={`${styles.swiperSlide}`}>
+                <div
+                  key={id}
+                  className={`${styles.bgSlide}`}
+                  style={{
+                    backgroundImage: `url(${src.landscape}}`,
+                  }}
+                />
+                <h1>Explore the {queries[index]}</h1>
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+      )}
 
       <Search />
     </header>
