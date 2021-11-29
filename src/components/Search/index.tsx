@@ -3,7 +3,6 @@ import { SearchContext } from "../../context/search";
 
 import styles from "./styles.module.scss";
 
-import { useDebounce } from "../../hooks/useDebounce";
 
 export function Search() {
   const { search, setSearch } = useContext(SearchContext);

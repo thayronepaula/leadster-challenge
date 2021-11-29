@@ -1,5 +1,13 @@
-import { createClient, PhotosWithTotalResults } from "pexels";
 import React from "react";
+import {
+  createClient,
+  PhotosWithTotalResults,
+  Photo as PhotoInterface,
+} from "pexels";
+import InfiniteScroll from "react-infinite-scroll-component";
+
+import { SearchContext } from "../../context/search";
+import { useDebounce } from "../../hooks/useDebounce";
 
 import { Photo } from "./Photo";
 import styles from "./styles.module.scss";
@@ -30,66 +38,100 @@ const client = createClient(
   "563492ad6f917000010000011d7c21ba52c34f0abbefd675f9034e42"
 );
 export function Album() {
+  const { search } = React.useContext(SearchContext);
+  const debouncedSearchTerm = useDebounce(search, 500);
+
   const [responsePhotos, setPesponsePhotos] = React.useState<PhotoData[]>(
     () => []
   );
-  const [currentPage, SetCurrentPage] = React.useState(1);
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [isLoading, setIsLoading] = React.useState(false);
 
-  async function getPhotos() {
-    const response = (await client.photos.curated({
-      per_page: 23,
-      page: currentPage,
-    })) as PhotosWithTotalResults;
+  const getPhotos = async () => {
+    const addPhotos = (
+      prevPhotos: PhotoData[],
+      newPhotos: PhotoInterface[]
+    ) => {
+      setIsLoading(false);
 
-    setPesponsePhotos((prev) => {
-      const allPhotos = [...prev, ...response.photos];
+      const allPhotos = [...prevPhotos, ...newPhotos];
 
       const PhotosWithoutDuplicateID = allPhotos.filter((obj, index, self) => {
         return index === self.findIndex((el) => el.id === obj.id);
       });
 
       return PhotosWithoutDuplicateID;
-    });
-  }
+    };
 
-  // console.log(responsePhotos[0].id)
-
-  React.useEffect(() => {
-    getPhotos();
-  }, [currentPage]);
-
-  React.useEffect(() => {
-    const intersectionObserver = new IntersectionObserver((entries) => {
-      if (entries.some((entry) => entry.isIntersecting)) {
-        // console.log("observando", entries);
-        SetCurrentPage((prev) => prev + 1);
-      }
-    });
-    if (photos) {
-      const sentinela = document.querySelector(
-        `.${styles.sentinela}`
-      ) as Element;
-
-      intersectionObserver.observe(sentinela);
+    setCurrentPage((prev) => prev + 1);
+    if (!debouncedSearchTerm) {
+      const response = (await client.photos.curated({
+        per_page: 12,
+        page: currentPage,
+      })) as PhotosWithTotalResults;
+      setPesponsePhotos((prev) => addPhotos(prev, response.photos));
+      return;
     }
 
-    return () => intersectionObserver.disconnect();
-  }, []);
+    if (debouncedSearchTerm.trim()) {
+      const searchPhotos = (await client.photos.search({
+        query: search,
+        per_page: 12,
+        page: currentPage,
+      })) as PhotosWithTotalResults;
+      setPesponsePhotos((prev) => addPhotos(prev, searchPhotos.photos));
+    }
+  };
+
+  React.useEffect(() => {
+    if (search.trim() !== debouncedSearchTerm.trim()) {
+      setCurrentPage(1);
+      setPesponsePhotos(() => []);
+      setIsLoading(true);
+      return;
+    }
+
+    getPhotos();
+  }, [search, debouncedSearchTerm]);
 
   const photos = responsePhotos;
   if (!photos) return null;
-
   return (
-    <>
-      <h1>{currentPage}</h1>
-      <div className={styles.scroll}>
+    <InfiniteScroll
+      next={getPhotos}
+      hasMore={true}
+      loader={undefined}
+      dataLength={photos.length}
+      height={861}
+      className={styles.scroll}
+      // style={isLoading ? { display: "flex" } : undefined}
+    >
+      {isLoading ? (
+        <div className="spinner" />
+      ) : (
         <section className={styles.album}>
           {photos?.map((photo) => {
             return <Photo key={photo.id} {...photo} />;
           })}
-          <div className={styles.sentinela} />
+          {/* <div id="sentinela" className={styles.sentinela} /> */}
         </section>
-      </div>
-    </>
+      )}
+    </InfiniteScroll>
   );
 }
+
+// React.useEffect(() => {
+//   const intersectionObserver = new IntersectionObserver((entries) => {
+//     console.log(search)
+//     if (entries.some((entry) => entry.isIntersecting)) {
+//       setCurrentPage(currentPage+1);
+//     }
+//   });
+
+//   if (photos && !isLoading) {
+//     const sentinela = document.querySelector(`#sentinela`) as Element;
+
+//     intersectionObserver.observe(sentinela);
+//   }
+//   return () => intersectionObserver.disconnect();
+// }, [debouncedSearchTerm]);

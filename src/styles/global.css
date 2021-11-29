@@ -8,3 +8,19 @@
 body {
   background: #F7F7F7;
 }
+
+.spinner {
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+  border: 8px solid #fff;
+  border-radius: 50%;
+  border-top-color: #222;
+  animation: spin .5s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}

@@ -8,7 +8,6 @@ import { Footer } from "./components/Footer";
 import styles from "./app.module.scss";
 
 export function App() {
-  const { search } = useContext(SearchContext);
   return (
     <div className={styles.container}>
       <Header />

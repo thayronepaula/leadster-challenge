@@ -46,11 +46,11 @@ export function Header() {
       let response = [];
       try {
         for (let query of queries) {
-          const PhotosWithTotalResults = (await client.photos.search({
+          const photosWithTotalResults = (await client.photos.search({
             query,
             per_page: 1,
           })) as PhotosWithTotalResults;
-          response.push(...PhotosWithTotalResults.photos);
+          response.push(...photosWithTotalResults.photos);
         }
         setPesponsePhotos(response);
       } catch (error) {
@@ -61,8 +61,6 @@ export function Header() {
     }
     getPhotos();
   }, []);
-
-  // console.log(responsePhotos);
 
   return (
     <header className={styles.header}>
