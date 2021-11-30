@@ -62,24 +62,35 @@ export function Album() {
 
       return PhotosWithoutDuplicateID;
     };
-
-    setCurrentPage((prev) => prev + 1);
-    if (!debouncedSearchTerm) {
+    // console.log(search);
+    // console.log(debouncedSearchTerm);
+    if (!search) {
+      setCurrentPage((prev) => prev + 1);
       const response = (await client.photos.curated({
         per_page: 12,
         page: currentPage,
       })) as PhotosWithTotalResults;
       setPesponsePhotos((prev) => addPhotos(prev, response.photos));
+      console.log("home");
+
       return;
     }
 
     if (debouncedSearchTerm.trim()) {
+      if (search !== debouncedSearchTerm.trim()) {
+        setCurrentPage(1);
+        return;
+      }
+      console.log("pesquisa");
+      setCurrentPage((prev) => prev + 1);
       const searchPhotos = (await client.photos.search({
-        query: search,
+        query: debouncedSearchTerm.trim(),
         per_page: 12,
         page: currentPage,
       })) as PhotosWithTotalResults;
       setPesponsePhotos((prev) => addPhotos(prev, searchPhotos.photos));
+
+      return;
     }
   };
 
@@ -104,7 +115,7 @@ export function Album() {
       dataLength={photos.length}
       height={861}
       className={styles.scroll}
-      // style={isLoading ? { display: "flex" } : undefined}
+      style={isLoading ? { display: "flex" } : undefined}
     >
       {isLoading ? (
         <div className="spinner" />
@@ -113,7 +124,6 @@ export function Album() {
           {photos?.map((photo) => {
             return <Photo key={photo.id} {...photo} />;
           })}
-          {/* <div id="sentinela" className={styles.sentinela} /> */}
         </section>
       )}
     </InfiniteScroll>

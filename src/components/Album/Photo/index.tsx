@@ -12,19 +12,20 @@ interface PhotoProps extends PhotoInterface {
 }
 
 export function Photo({ ...photo }: PhotoProps) {
-  const { avg_color, photographer, src, url } = photo;
+  const { avg_color, photographer, photographer_url, src, url } = photo;
 
   // format alt for image
   const altImage = url.split("https://www.pexels.com/photo/");
   const [, alt] = altImage;
   const altFormat = alt.replace(/[^a-zA-Z]/g, " ");
   //
-
   return (
     <div className={styles.card}>
       <AsyncImage src={src.portrait} alt={altFormat} baseColor={avg_color} />
       <footer className={styles.cardFooter}>
-        <h3>{photographer}</h3>
+        <a href={photographer_url} target="_blank">
+          {photographer}
+        </a>
         <img
           className={styles.photographerIcon}
           src={PhotographerIcon}
