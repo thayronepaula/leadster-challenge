@@ -1,6 +1,8 @@
 .footer {
+  width: 100%;
   display: flex;
-  place-items: center;
+  justify-content: center;
+  align-items: center;
   background: #222;
   height: 120px;
   font-weight: bold;
@@ -9,7 +11,27 @@
     font-size: 18px;
     line-height: 21px;
     color: #FFFFFF;
-    width: 100%;
     text-align: center;
+
+    a {
+      color: #05A081;
+      margin: 0 7px;
+      text-decoration: none;
+
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  hr {
+    height: 11px;
+    border: 1px solid #f7f7f7;
+  }
+
+  span {
+    color: #fff;
+    margin-left: 7px;
   }
 }
