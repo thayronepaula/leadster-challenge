@@ -3,4 +3,9 @@
   margin: 0 auto;
 
   margin-top: 30px;
+
+
+  @media (max-width:360px) {
+    margin-top: 0;
+  }
 }

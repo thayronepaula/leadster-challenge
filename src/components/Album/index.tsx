@@ -52,8 +52,6 @@ export function Album() {
       prevPhotos: PhotoData[],
       newPhotos: PhotoInterface[]
     ) => {
-      setIsLoading(false);
-
       const allPhotos = [...prevPhotos, ...newPhotos];
 
       const PhotosWithoutDuplicateID = allPhotos.filter((obj, index, self) => {
@@ -62,8 +60,8 @@ export function Album() {
 
       return PhotosWithoutDuplicateID;
     };
-    // console.log(search);
-    // console.log(debouncedSearchTerm);
+
+    setIsLoading(false);
     if (!search) {
       setCurrentPage((prev) => prev + 1);
       const response = (await client.photos.curated({
@@ -71,7 +69,6 @@ export function Album() {
         page: currentPage,
       })) as PhotosWithTotalResults;
       setPesponsePhotos((prev) => addPhotos(prev, response.photos));
-      console.log("home");
 
       return;
     }
@@ -81,7 +78,7 @@ export function Album() {
         setCurrentPage(1);
         return;
       }
-      console.log("pesquisa");
+
       setCurrentPage((prev) => prev + 1);
       const searchPhotos = (await client.photos.search({
         query: debouncedSearchTerm.trim(),

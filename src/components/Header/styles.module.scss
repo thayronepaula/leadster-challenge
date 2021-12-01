@@ -35,5 +35,11 @@
 
     color: #fff;
     text-transform: uppercase;
+
+    @media (max-width:360px) {
+      font-size: 20px;
+      margin: 0 0 30px 30px;
+      line-height: 23px;
+    }
   }
 }

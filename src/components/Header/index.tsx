@@ -1,16 +1,17 @@
+import React from "react";
+import Skeleton from "react-loading-skeleton";
 import { createClient, PhotosWithTotalResults } from "pexels";
+import { SearchContext } from "../../context/search";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper";
 
 import styles from "./styles.module.scss";
-
 import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/effect-fade";
+
 import { Search } from "../Search";
-import React from "react";
-import Skeleton from "react-loading-skeleton";
 
 interface PhotoData {
   id: number;
@@ -35,9 +36,19 @@ interface PhotoData {
 const client = createClient(
   "563492ad6f917000010000011d7c21ba52c34f0abbefd675f9034e42"
 );
-const queries = ["Nature", "Fantasy", "Friendship", "Games"];
+const queries = [
+  "Nature",
+  "Brazil",
+  "Fantasy",
+  "Sports",
+  "Stars",
+  "Friendship",
+  "Games",
+  "Neon lights",
+];
 
 export function Header() {
+  const { setSearch } = React.useContext(SearchContext);
   const [responsePhotos, setPesponsePhotos] = React.useState<PhotoData[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -72,6 +83,7 @@ export function Header() {
           modules={[Autoplay]}
           slidesPerView={1}
           grabCursor
+          loop
           autoplay={{
             delay: 5000,
             disableOnInteraction: false,
@@ -79,10 +91,14 @@ export function Header() {
         >
           {responsePhotos.map(({ id, src }, index) => {
             return (
-              <SwiperSlide key={id} className={`${styles.swiperSlide}`}>
+              <SwiperSlide
+                key={id}
+                className={`${styles.swiperSlide}`}
+                onClick={() => setSearch(queries[index])}
+              >
                 <div
                   key={id}
-                  className={`${styles.bgSlide}`}
+                  className={styles.bgSlide}
                   style={{
                     backgroundImage: `url(${src.landscape}}`,
                   }}
