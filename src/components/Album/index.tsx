@@ -65,7 +65,7 @@ export function Album() {
     if (!search) {
       setCurrentPage((prev) => prev + 1);
       const response = (await client.photos.curated({
-        per_page: 12,
+        per_page: 15,
         page: currentPage,
       })) as PhotosWithTotalResults;
       setPesponsePhotos((prev) => addPhotos(prev, response.photos));
@@ -82,7 +82,7 @@ export function Album() {
       setCurrentPage((prev) => prev + 1);
       const searchPhotos = (await client.photos.search({
         query: debouncedSearchTerm.trim(),
-        per_page: 12,
+        per_page: 15,
         page: currentPage,
       })) as PhotosWithTotalResults;
       setPesponsePhotos((prev) => addPhotos(prev, searchPhotos.photos));
@@ -103,6 +103,7 @@ export function Album() {
   }, [search, debouncedSearchTerm]);
 
   const photos = responsePhotos;
+  console.log(photos)
   if (!photos) return null;
   return (
     <InfiniteScroll
