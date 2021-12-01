@@ -13,11 +13,14 @@
     color: #FFFFFF;
     text-align: center;
 
+    @media (max-width:360px) {
+      font-size: 14px;
+    }
+
     a {
       color: #05A081;
       margin: 0 7px;
       text-decoration: none;
-
 
       &:hover {
         text-decoration: underline;
@@ -33,5 +36,9 @@
   span {
     color: #fff;
     margin-left: 7px;
+
+    @media (max-width:360px) {
+      font-size: 14px;
+    }
   }
 }

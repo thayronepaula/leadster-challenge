@@ -12,6 +12,7 @@
 
   @media (max-width:360px) {
     margin-top: 15px;
+    overflow-x: hidden !important;
   }
 
   &::-webkit-scrollbar {
@@ -90,7 +91,7 @@
     background: #fff;
 
     @media (max-width:360px) {
-    padding: 0 7.5px;
+      padding: 0 7.5px;
 
       height: 40.5px;
     }
