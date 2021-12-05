@@ -11,7 +11,7 @@ export function Search() {
     <div className={styles.search}>
       <input
         type="text"
-        placeholder="Busque por fotos"
+        placeholder="Search by photo"
         value={search}
         onChange={({ target }) => setSearch(target.value)}
       />

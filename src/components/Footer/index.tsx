@@ -6,7 +6,7 @@ export function Footer() {
   return (
     <footer className={styles.footer}>
       <p>
-        Direitos reservados à
+        All rights reserved to
         <a href="https://www.pexels.com/" target="_blank">
           Pexels
         </a>
