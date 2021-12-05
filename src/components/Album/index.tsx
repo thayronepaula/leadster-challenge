@@ -34,9 +34,15 @@ interface PhotoData {
   };
 }
 
-const client = createClient(
-  "563492ad6f917000010000011d7c21ba52c34f0abbefd675f9034e42"
-);
+const getApiKey = (): string => {
+  const key = import.meta.env.VITE_PEXELS_KEY as string;
+  if (!key) {
+    throw new Error("Pexels API key not provided");
+  }
+  return key;
+};
+
+const client = createClient(getApiKey());
 export function Album() {
   const { search } = React.useContext(SearchContext);
   const debouncedSearchTerm = useDebounce(search, 500);
@@ -103,7 +109,6 @@ export function Album() {
   }, [search, debouncedSearchTerm]);
 
   const photos = responsePhotos;
-  console.log(photos)
   if (!photos) return null;
   return (
     <InfiniteScroll
