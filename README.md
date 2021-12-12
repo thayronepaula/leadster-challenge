@@ -1,4 +1,4 @@
-# Leadster Challenge 
+# [Leadster Challenge](https://leadster-album.netlify.app/)
 
 Front-end challenge to create an album app.
 
@@ -11,8 +11,8 @@ Exemple on [Figma](https://www.figma.com/file/FkVMNAn9nzXxFjHTSbXsj1/Leadster?no
 
 ## How to run the project.
 
-1. Create an `.env.local` file.
+1. Change the `.env.local.example` file to `.env.local`.
 2. Put your api key with the name VITE_PEXELS_KEY. [If you don't have a key](https://www.pexels.com/api/documentation/#authorization).
     * ```sh
-      VITE_PEXELS_KEY=Your API key
+      VITE_PEXELS_KEY=YourAPIkey
       ```
