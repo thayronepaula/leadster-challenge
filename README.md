@@ -2,7 +2,7 @@
 
 Front-end challenge to create an album app.
 
-Exemple on [Figma](https://www.figma.com/file/FkVMNAn9nzXxFjHTSbXsj1/Leadster?node-id=12%3A2).
+Example on [Figma](https://www.figma.com/file/FkVMNAn9nzXxFjHTSbXsj1/Leadster?node-id=12%3A2) created by me. 
 
 ## Technologies
 
